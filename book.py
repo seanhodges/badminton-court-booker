@@ -39,8 +39,8 @@ if __name__ == '__main__':
         if options.verbose: print time.asctime()
         main()
         if options.verbose: print time.asctime()
-        if options.verbose: print 'TOTAL TIME IN MINUTES:',
-        if options.verbose: print (time.time() - start_time) / 60.0
+        if options.verbose: print 'TOTAL TIME:',
+        if options.verbose: print (time.time() - start_time)
         sys.exit(0)
     except KeyboardInterrupt, e: # Ctrl-C
         raise e
