@@ -23,10 +23,18 @@ import re
 #from pexpect import run, spawn
 
 def main ():
-
     global options, args
-    # TODO: Do something more interesting here...
-    print 'Hello world!'
+
+    # Initialise session and grab keys
+    # Login to site
+    # Get badminton booking data for next week
+    # Parse available slots (slots x courts)
+    # Find available courts for chosen time
+    # Pick court in order of preference
+    # Add to basket
+    # Agree to T&Cs and submit basket
+    # Check response to confirm booking
+    # Email result of booking
 
 if __name__ == '__main__':
     try:

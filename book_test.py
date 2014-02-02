@@ -15,38 +15,29 @@ import os
 import sys
 sys.path.append('.')
 
-class test_Logging_In(unittest.TestCase):
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
+class test_Asp_Action_Helper(unittest.TestCase):
     def assertContains(self, stack, needle):
         self.assertNotEqual(-1, stack.find(needle))
 
-    @unittest.skipIf('SKIP_SLOW_TESTS' in os.environ, 'Requested fast tests')
-    def test_Hit_Login_Page(self):
+    def test_Gets_Action_Url(self):
         url = 'https://www.hertsmereleisurebookings.co.uk/Horizons/Login/Default.aspx?regionid=4'
-        r = requests.get(url)
-        self.assertEqual(r.status_code, 200)
-        self.assertContains(r.text, 'Log On')
+        target = url
+        self.assertEqual(target, url)
 
-    @unittest.skipIf('SKIP_SLOW_TESTS' in os.environ, 'Requested fast tests')
-    def test_Login_Request(self):
-        url = 'https://www.hertsmereleisurebookings.co.uk/Horizons/Login/Default.aspx?regionid=4'
-        r = requests.get(url)
-
-        # Grab the VIEWSTATE, EVENTVALIDATION and cookie
+    def test_Gets_Session_Id(self):
         sessionid = r.cookies['ASP.NET_SessionId']
         self.assertEqual(len(sessionid), 24)
-        viewstate = re.search('__VIEWSTATE" value="(.*)"', r.text).group(1)
-        self.assertEqual(len(viewstate), 436)
+
+    def test_Gets_Event_Validation(self):
         eventvalidation = re.search('__EVENTVALIDATION" value="(.*)"', r.text).group(1)
         self.assertEqual(len(eventvalidation), 80)
         self.assertNotEqual(eventvalidation, viewstate)
 
-        # Build the packet
+    def test_Gets_View_State(self):
+        viewstate = re.search('__VIEWSTATE" value="(.*)"', r.text).group(1)
+        self.assertEqual(len(viewstate), 436)
+
+    def test_Builds_Asp_Action(self):
         cookies = {
                 'ASP.NET_SessionId' : sessionid
                 }
@@ -58,13 +49,5 @@ class test_Logging_In(unittest.TestCase):
                 'ctl00$cphLogin$txtEmail' : 'seanhodges84@gmail.com',
                 'ctl00$cphLogin$txtPassword' : 'do4love'
                 }
-
-        # Attempt the login request
-        url = 'https://www.hertsmereleisurebookings.co.uk/Horizons/Login/Default.aspx?regionid=4'
-        r = requests.post(url, data=payload, cookies=cookies)
-
-        # Were we successful?
-        print r.text
-        self.assertContains(r.text, 'Sean Hodges')
 
 unittest.main()
