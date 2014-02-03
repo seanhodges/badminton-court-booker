@@ -188,6 +188,7 @@ def main ():
     entry = BookingTableDigester.getItemInBasket(basketdata)
 
     # Agree to T&Cs and submit basket
+    url = AspActionHelper.getActionUrl('/Basket.aspx')
     request = AspActionHelper.buildAspAction(session, {
         '__SITE' : '',
         '__BOOKREF' : '',
@@ -196,7 +197,7 @@ def main ():
         '__PERSON' : '',
         'ctl00$cphMain$WucBasket1$hfLoginMethod' : 'Standard',
         'ctl00$cphMain$WucBasket1$hfMessage' : '',
-        'ctl00$cphMain$WucBasket1$chkTerms' : '1',
+        'ctl00$cphMain$WucBasket1$chkTerms' : 'on',
         'ctl00$cphMain$WucBasket1$txtPassword' : 'do4love',
         entry : ''
     })
