@@ -133,44 +133,44 @@ def main ():
     })
     response = requests.post(url, data=request.payload, cookies=request.cookies)
 
-    # Get badminton booking data for next week
-    url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
-    viewstate = AspActionHelper.getViewState('MakeBooking')
-    request = AspActionHelper.buildAspAction(session, {
-        '__SITEPOSTED' : '',
-        '__ACTIVITYPOSTED' : '1000',
-        '__SITETOP' : '',
-        '__ACTIVITYTOP' : '0',
-        '__SITEPOSITIONY' : '',
-        '__ACTIVITYPOSITIONY' : '0',
-        '__DATECHANGE' : '7',
-        '__BOOKCOL' : '-2',
-        '__BOOKS' : '-2',
-        '__BOOKE' : '-2',
-        '__BOOKCOUNT' : '0',
-        '__BOOKLOC' : '',
-        '__BOOKSUBLOCS' : '',
-        '__BOOKFROM' : '',
-        '__BOOKTO' : '',
-        '__ACTION' : '',
-        'ctl00$cphMain$WucBookingSheet1$hfMessage' : ''
-    })
-    response = requests.post(url, data=request.payload, cookies=request.cookies)
-
-    # Find available courts for chosen time
-    bookingdata = response.text
-    availability = BookingTableDigester.getCourtAvailability(bookingdata, '20:00') # 20:00
-
-    # Pick court in order of preference
-    chosencourt = -1
-    for i in [0, 3, 2, 1]:
-        if availability[i] == True:
-            chosencourt = i + 1
-            break
-    if chosencourt < 1:
-        raise Exception('No courts free!')
-
     try:
+        # Get badminton booking data for next week
+        url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
+        viewstate = AspActionHelper.getViewState('MakeBooking')
+        request = AspActionHelper.buildAspAction(session, {
+            '__SITEPOSTED' : '',
+            '__ACTIVITYPOSTED' : '1000',
+            '__SITETOP' : '',
+            '__ACTIVITYTOP' : '0',
+            '__SITEPOSITIONY' : '',
+            '__ACTIVITYPOSITIONY' : '0',
+            '__DATECHANGE' : '7',
+            '__BOOKCOL' : '-2',
+            '__BOOKS' : '-2',
+            '__BOOKE' : '-2',
+            '__BOOKCOUNT' : '0',
+            '__BOOKLOC' : '',
+            '__BOOKSUBLOCS' : '',
+            '__BOOKFROM' : '',
+            '__BOOKTO' : '',
+            '__ACTION' : '',
+            'ctl00$cphMain$WucBookingSheet1$hfMessage' : ''
+        })
+        response = requests.post(url, data=request.payload, cookies=request.cookies)
+
+        # Find available courts for chosen time
+        bookingdata = response.text
+        availability = BookingTableDigester.getCourtAvailability(bookingdata, '20:00') # 20:00
+
+        # Pick court in order of preference
+        chosencourt = -1
+        for i in [0, 3, 2, 1]:
+            if availability[i] == True:
+                chosencourt = i + 1
+                break
+        if chosencourt < 1:
+            raise Exception('No courts free!')
+
         # Add to basket
         url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
         viewstate = AspActionHelper.getViewState('MakeBooking')
