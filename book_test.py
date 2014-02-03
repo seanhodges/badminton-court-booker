@@ -51,33 +51,23 @@ class test_Asp_Action_Helper(unittest.TestCase):
         sessionid = AspActionHelper.getSessionId(r)
         self.assertEqual(sessionid, '12345')
 
-    def test_Gets_Event_Validation(self):
+    def test_Scrapes_ViewState_From_Page(self):
         r = FakeResponse()
         r.text = open('test/Default.aspx', 'r').read()
+        viewstate = AspActionHelper.parseViewState(r)
+        self.assertEqual(viewstate['viewstate'], '/wEPDwUJNDY=')
+        self.assertEqual(viewstate['eventvalidation'], '/wEWBgKCxaiC=')
 
-        eventvalidation = AspActionHelper.getEventValidation(r)
-        self.assertEqual(eventvalidation, '/wEWBgKCxaiC=')
-
-    def test_Gets_View_State(self):
-        r = FakeResponse()
-        r.text = open('test/Default.aspx', 'r').read()
-        viewstate = AspActionHelper.getViewState(r)
-        self.assertEqual(viewstate, '/wEPDwUJNDY=')
-
-    def test_Gets_Full_Session_Object(self):
-        r = FakeResponse()
-        r.cookies = {
-            'ASP.NET_SessionId' : '12345'
-        }
-        r.text = open('test/Default.aspx', 'r').read()
-        session = AspActionHelper.getSession(r)
-        self.assertEqual(session.sessionid, '12345')
-        self.assertEqual(session.eventvalidation, '/wEWBgKCxaiC=')
-        self.assertEqual(session.viewstate, '/wEPDwUJNDY=')
+    def test_Gets_Mapped_ViewState_For_Fake_Page(self):
+        page = 'Fake'
+        viewstate = AspActionHelper.getViewState(page)
+        self.assertEqual(viewstate['viewstate'], '/wEPDwUJNDY=')
+        self.assertEqual(viewstate['eventvalidation'], '/wEWBgKCxaiC=')
 
     def test_Builds_Login_Asp_Action(self):
-        session = AspActionHelper.AspSession('12345', '/wEPDwUJNDY=', '/wEWBgKCxaiC=')
-        request = AspActionHelper.buildAspAction(session, {
+        session = '12345'
+        viewstate = { 'viewstate' : '/wEPDwUJNDY=', 'eventvalidation' : '/wEWBgKCxaiC=' }
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
             '__EVENTARGUMENT' : '',
             'ctl00$cphLogin$txtEmail' : 'seanhodges84@gmail.com',
@@ -100,8 +90,9 @@ class test_Asp_Action_Helper(unittest.TestCase):
         self.assertEqual(request.payload, payload)
 
     def test_Builds_MakeBooking_Asp_Action(self):
-        session = AspActionHelper.AspSession('12345', '/wEPDwUJNDY=', '/wEWBgKCxaiC=')
-        request = AspActionHelper.buildAspAction(session, {
+        session = '12345'
+        viewstate = { 'viewstate' : '/wEPDwUJNDY=', 'eventvalidation' : '/wEWBgKCxaiC=' }
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITEPOSTED' : '',
             '__ACTIVITYPOSTED' : '',
             '__SITETOP' : '',
@@ -150,8 +141,9 @@ class test_Asp_Action_Helper(unittest.TestCase):
         self.assertEqual(request.payload, payload)
 
     def test_Builds_Add_To_Basket_Asp_Action(self):
-        session = AspActionHelper.AspSession('12345', '/wEPDwUJNDY=', '/wEWBgKCxaiC=')
-        request = AspActionHelper.buildAspAction(session, {
+        session = '12345'
+        viewstate = { 'viewstate' : '/wEPDwUJNDY=', 'eventvalidation' : '/wEWBgKCxaiC=' }
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITEPOSTED' : '',
             '__ACTIVITYPOSTED' : '',
             '__SITETOP' : '',
@@ -202,8 +194,9 @@ class test_Asp_Action_Helper(unittest.TestCase):
     def test_Builds_Checkout_Asp_Action(self):
         entry = 'ctl00$cphMain$WucBasket1$HIDDENREF_6_50993_E_Badminton_9.2500'
 
-        session = AspActionHelper.AspSession('12345', '/wEPDwUJNDY=', '/wEWBgKCxaiC=')
-        request = AspActionHelper.buildAspAction(session, {
+        session = '12345'
+        viewstate = { 'viewstate' : '/wEPDwUJNDY=', 'eventvalidation' : '/wEWBgKCxaiC=' }
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITE' : '',
             '__BOOKREF' : '',
             '__ACTION' : 'CHECKOUT',
@@ -238,8 +231,9 @@ class test_Asp_Action_Helper(unittest.TestCase):
         self.assertEqual(request.payload, payload)
 
     def test_Builds_Logout_Asp_Action(self):
-        session = AspActionHelper.AspSession('12345', '/wEPDwUJNDY=', '/wEWBgKCxaiC=')
-        request = AspActionHelper.buildAspAction(session, {
+        session = '12345'
+        viewstate = { 'viewstate' : '/wEPDwUJNDY=', 'eventvalidation' : '/wEWBgKCxaiC=' }
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
             '__EVENTARGUMENT' : '',
             'ctl00$WucStatusBar1$imgLogout.x' : '46',
