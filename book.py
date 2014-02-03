@@ -170,67 +170,73 @@ def main ():
     if chosencourt < 1:
         raise Exception('No courts free!')
 
-    # Add to basket
-    url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
-    viewstate = AspActionHelper.getViewState('MakeBooking')
-    request = AspActionHelper.buildAspAction(session, {
-        '__SITEPOSTED' : '',
-        '__ACTIVITYPOSTED' : '',
-        '__SITETOP' : '',
-        '__ACTIVITYTOP' : '',
-        '__SITEPOSITIONY' : '',
-        '__ACTIVITYPOSITIONY' : '',
-        '__DATECHANGE' : '7',
-        '__BOOKCOL' : str(chosencourt),
-        '__BOOKS' : '18', # 20:00
-        '__BOOKE' : '19', # 21:00
-        '__BOOKCOUNT' : '1',
-        '__BOOKLOC' : 'WP01',
-        '__BOOKSUBLOCS' : str(chosencourt),
-        '__BOOKFROM' : '2000', # 20:00
-        '__BOOKTO' : '2100', # 21:00
-        '__ACTION' : 'ADDTOBASKET',
-        'ctl00$cphMain$WucBookingSheet1$hfMessage' : ''
-    })
-    response = requests.post(url, data=request.payload, cookies=request.cookies)
+    try:
+        # Add to basket
+        url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
+        viewstate = AspActionHelper.getViewState('MakeBooking')
+        request = AspActionHelper.buildAspAction(session, {
+            '__SITEPOSTED' : '',
+            '__ACTIVITYPOSTED' : '',
+            '__SITETOP' : '',
+            '__ACTIVITYTOP' : '',
+            '__SITEPOSITIONY' : '',
+            '__ACTIVITYPOSITIONY' : '',
+            '__DATECHANGE' : '7',
+            '__BOOKCOL' : str(chosencourt),
+            '__BOOKS' : '18', # 20:00
+            '__BOOKE' : '19', # 21:00
+            '__BOOKCOUNT' : '1',
+            '__BOOKLOC' : 'WP01',
+            '__BOOKSUBLOCS' : str(chosencourt),
+            '__BOOKFROM' : '2000', # 20:00
+            '__BOOKTO' : '2100', # 21:00
+            '__ACTION' : 'ADDTOBASKET',
+            'ctl00$cphMain$WucBookingSheet1$hfMessage' : ''
+        })
+        response = requests.post(url, data=request.payload, cookies=request.cookies)
 
-    basketdata = response.text
-    success = BookingTableDigester.checkItemIsInBasket(basketdata)
-    if not success:
-        raise Exception('Nothing in basket!')
-    entry = BookingTableDigester.getItemInBasket(basketdata)
+        basketdata = response.text
+        success = BookingTableDigester.checkItemIsInBasket(basketdata)
+        if not success:
+            raise Exception('Nothing in basket!')
+        entry = BookingTableDigester.getItemInBasket(basketdata)
 
-    # Agree to T&Cs and submit basket
-    url = AspActionHelper.getActionUrl('/Basket.aspx')
-    viewstate = AspActionHelper.getViewState('Basket')
-    request = AspActionHelper.buildAspAction(session, {
-        '__SITE' : '',
-        '__BOOKREF' : '',
-        '__ACTION' : 'CHECKOUT',
-        '__PWD' : 'do4love',
-        '__PERSON' : '',
-        'ctl00$cphMain$WucBasket1$hfLoginMethod' : 'Standard',
-        'ctl00$cphMain$WucBasket1$hfMessage' : '',
-        'ctl00$cphMain$WucBasket1$chkTerms' : 'on',
-        'ctl00$cphMain$WucBasket1$txtPassword' : 'do4love',
-        entry : ''
-    })
-    response = requests.post(url, data=request.payload, cookies=request.cookies)
+        # Agree to T&Cs and submit basket
+        url = AspActionHelper.getActionUrl('/Basket.aspx')
+        viewstate = AspActionHelper.getViewState('Basket')
+        request = AspActionHelper.buildAspAction(session, {
+            '__SITE' : '',
+            '__BOOKREF' : '',
+            '__ACTION' : 'CHECKOUT',
+            '__PWD' : 'do4love',
+            '__PERSON' : '',
+            'ctl00$cphMain$WucBasket1$hfLoginMethod' : 'Standard',
+            'ctl00$cphMain$WucBasket1$hfMessage' : '',
+            'ctl00$cphMain$WucBasket1$chkTerms' : 'on',
+            'ctl00$cphMain$WucBasket1$txtPassword' : 'do4love',
+            entry : ''
+        })
+        response = requests.post(url, data=request.payload, cookies=request.cookies)
 
-    # Check response to confirm booking
-    print response.text
+        # Check response to confirm booking
+        print response.text
 
-    # Logout
-    request = AspActionHelper.buildAspAction(session, {
-        '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
-        '__EVENTARGUMENT' : '',
-        'ctl00$WucStatusBar1$imgLogout.x' : '46',
-        'ctl00$WucStatusBar1$imgLogout.y' : '14'
-    })
-    response = requests.post(url, data=request.payload, cookies=request.cookies)
+        # Email result of booking
+        print "Court %i booked for next Monday, 8pm" % chosencourt
 
-    # Email result of booking
-    print "Court %i booked for next Monday, 8pm" % chosencourt
+    except Exception as e:
+        print 'There was a problem with the booking process, could not complete booking'
+        print e
+
+    finally:
+        # Logout
+        request = AspActionHelper.buildAspAction(session, {
+            '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
+            '__EVENTARGUMENT' : '',
+            'ctl00$WucStatusBar1$imgLogout.x' : '46',
+            'ctl00$WucStatusBar1$imgLogout.y' : '14'
+        })
+        response = requests.post(url, data=request.payload, cookies=request.cookies)
 
 if __name__ == '__main__':
     try:
