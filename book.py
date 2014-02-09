@@ -20,6 +20,7 @@ LICENSE
 import sys, os, traceback, optparse
 import time
 import re
+import traceback
 import requests
 from collections import namedtuple
 from bs4 import BeautifulSoup
@@ -226,7 +227,7 @@ def main ():
 
     except Exception as e:
         print 'There was a problem with the booking process, could not complete booking'
-        print e
+        print traceback.format_exc()
 
     finally:
         # Logout
