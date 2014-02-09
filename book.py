@@ -21,7 +21,7 @@ import sys, os, traceback, optparse
 import time
 import re
 import traceback
-import logger
+import logging
 import requests
 from collections import namedtuple
 from bs4 import BeautifulSoup
