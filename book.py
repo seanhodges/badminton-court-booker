@@ -136,7 +136,7 @@ def main ():
         # Get badminton booking data for next week
         logger.info('Retriving booking data for next week')
         url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
-        viewstate = AspActionHelper.getViewState(AspActionHelper.getActionUrl('/horizons/HorizonsHome.aspx'))
+        viewstate = AspActionHelper.getViewState(AspActionHelper.getActionUrl('/HorizonsHome.aspx'))
         request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITEPOSTED' : '',
             '__ACTIVITYPOSTED' : '1000',
