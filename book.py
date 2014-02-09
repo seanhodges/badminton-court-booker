@@ -165,6 +165,7 @@ def main ():
             'ctl00$cphMain$WucBookingSheet1$hfMessage' : ''
         })
         response = requests.post(url, data=request.payload, cookies=request.cookies)
+        logger.debug(response.text)
 
         # Find available courts for chosen time
         logger.info('Finding available courts')
@@ -230,9 +231,9 @@ def main ():
                 entry : ''
             })
             response = requests.post(url, data=request.payload, cookies=request.cookies)
+            logger.debug(response.text)
 
             # Check response to confirm booking
-            logger.debug(response.text)
 
         # Email result of booking
         logger.info("Court %i booked for next Monday, 8pm", chosencourt)
