@@ -139,6 +139,10 @@ def main ():
         'ctl00$cphLogin$txtPassword' : 'do4love'
     })
     response = requests.post(url, data=request.payload, cookies=request.cookies)
+    if response.status != 200:
+        logger.error('Login failed with status %i, response body follows:', response.status)
+        logger.error(response.body)
+        raise Exception('Login failed!')
 
     try:
         # Get badminton booking data for next week
