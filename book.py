@@ -47,7 +47,7 @@ class AspActionHelper:
         return { 'viewstate' : viewstate, 'eventvalidation' : eventvalidation }
 
     @staticmethod
-    def getViewState(url):
+    def getViewState(session, url):
         out = {}
 
         if url == 'Fake':
@@ -55,7 +55,9 @@ class AspActionHelper:
             eventvalidation = '/wEWBgKCxaiC='
             out = { 'viewstate' : viewstate, 'eventvalidation' : eventvalidation }
         else:
-            response = requests.get(url)
+            response = requests.get(url, cookies={
+                'ASP.NET_SessionId' : session
+            })
             out = AspActionHelper.parseViewState(response)
 
         return out
@@ -114,7 +116,6 @@ def main ():
     # Initialise session
     logger.info('Initialising session')
     url = AspActionHelper.getActionUrl('/Login/Default.aspx?regionid=4')
-    viewstate = AspActionHelper.getViewState(url)
     response = requests.get(url)
     session = AspActionHelper.getSessionId(response)
 
@@ -136,7 +137,7 @@ def main ():
         # Get badminton booking data for next week
         logger.info('Retriving booking data for next week')
         url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
-        viewstate = AspActionHelper.getViewState(AspActionHelper.getActionUrl('/HorizonsHome.aspx'))
+        viewstate = AspActionHelper.getViewState(session, url)
         request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITEPOSTED' : '',
             '__ACTIVITYPOSTED' : '1000',
@@ -208,7 +209,7 @@ def main ():
             # Agree to T&Cs and submit basket
             logger.info('Submitting basket')
             url = AspActionHelper.getActionUrl('/Basket.aspx')
-            viewstate = AspActionHelper.getViewState(url)
+            viewstate = AspActionHelper.getViewState(session, url)
             request = AspActionHelper.buildAspAction(session, viewstate, {
                 '__SITE' : '',
                 '__BOOKREF' : '',
@@ -236,7 +237,7 @@ def main ():
 
     finally:
         # Logout
-        viewstate = AspActionHelper.getViewState(url)
+        viewstate = AspActionHelper.getViewState(session, url)
         request = AspActionHelper.buildAspAction(session, viewstate, {
             '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
             '__EVENTARGUMENT' : '',

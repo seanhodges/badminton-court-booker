@@ -30,17 +30,17 @@ class test_Asp_Action_Helper(unittest.TestCase):
 
     def test_Gets_Action_Url_For_Login(self):
         expected = 'https://www.hertsmereleisurebookings.co.uk/Horizons/Login/Default.aspx?regionid=4'
-        url = AspActionHelper.getActionUrl('Login/Default.aspx?regionid=4')
+        url = AspActionHelper.getActionUrl('/Login/Default.aspx?regionid=4')
         self.assertEqual(url, expected)
 
     def test_Gets_Action_Url_For_Booking(self):
         expected = 'https://www.hertsmereleisurebookings.co.uk/Horizons/MakeBooking.aspx'
-        url = AspActionHelper.getActionUrl('MakeBooking.aspx')
+        url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
         self.assertEqual(url, expected)
 
     def test_Gets_Action_Url_For_Basket(self):
         expected = 'https://www.hertsmereleisurebookings.co.uk/Horizons/Basket.aspx'
-        url = AspActionHelper.getActionUrl('Basket.aspx')
+        url = AspActionHelper.getActionUrl('/Basket.aspx')
         self.assertEqual(url, expected)
 
     def test_Gets_Session_Id(self):
@@ -60,7 +60,8 @@ class test_Asp_Action_Helper(unittest.TestCase):
 
     def test_Gets_Mapped_ViewState_For_Fake_Page(self):
         page = 'Fake'
-        viewstate = AspActionHelper.getViewState(page)
+        session = '12345'
+        viewstate = AspActionHelper.getViewState(session, page)
         self.assertEqual(viewstate['viewstate'], '/wEPDwUJNDY=')
         self.assertEqual(viewstate['eventvalidation'], '/wEWBgKCxaiC=')
 
