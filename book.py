@@ -116,9 +116,9 @@ def main ():
     # Initialise session
     logger.info('Initialising session')
     url = AspActionHelper.getActionUrl('/Login/Default.aspx?regionid=4')
-    viewstate = AspActionHelper.getViewState(session, url)
     response = requests.get(url)
     session = AspActionHelper.getSessionId(response)
+    viewstate = AspActionHelper.getViewState(session, url)
 
     # Login to site
     logger.info('Logging into site')
