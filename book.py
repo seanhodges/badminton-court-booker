@@ -125,7 +125,7 @@ def main ():
     session = AspActionHelper.getSessionId(response)
 
     # Login to site
-    request = AspActionHelper.buildAspAction(session, {
+    request = AspActionHelper.buildAspAction(session, viewstate, {
         '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
         '__EVENTARGUMENT' : '',
         'ctl00$cphLogin$txtEmail' : 'seanhodges84@gmail.com',
@@ -137,7 +137,7 @@ def main ():
         # Get badminton booking data for next week
         url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
         viewstate = AspActionHelper.getViewState('MakeBooking')
-        request = AspActionHelper.buildAspAction(session, {
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITEPOSTED' : '',
             '__ACTIVITYPOSTED' : '1000',
             '__SITETOP' : '',
@@ -174,7 +174,7 @@ def main ():
         # Add to basket
         url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
         viewstate = AspActionHelper.getViewState('MakeBooking')
-        request = AspActionHelper.buildAspAction(session, {
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITEPOSTED' : '',
             '__ACTIVITYPOSTED' : '',
             '__SITETOP' : '',
@@ -204,7 +204,7 @@ def main ():
         # Agree to T&Cs and submit basket
         url = AspActionHelper.getActionUrl('/Basket.aspx')
         viewstate = AspActionHelper.getViewState('Basket')
-        request = AspActionHelper.buildAspAction(session, {
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITE' : '',
             '__BOOKREF' : '',
             '__ACTION' : 'CHECKOUT',
@@ -230,7 +230,8 @@ def main ():
 
     finally:
         # Logout
-        request = AspActionHelper.buildAspAction(session, {
+        viewstate = AspActionHelper.getViewState('Login')
+        request = AspActionHelper.buildAspAction(session, viewstate, {
             '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
             '__EVENTARGUMENT' : '',
             'ctl00$WucStatusBar1$imgLogout.x' : '46',
