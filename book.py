@@ -136,7 +136,6 @@ def main ():
         # Get badminton booking data for next week
         logger.info('Retriving booking data for next week')
         url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
-        viewstate = AspActionHelper.getViewState(url)
         request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITEPOSTED' : '',
             '__ACTIVITYPOSTED' : '1000',
@@ -178,7 +177,6 @@ def main ():
             # Add to basket
             logger.info('Adding to basket')
             url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
-            viewstate = AspActionHelper.getViewState(url)
             request = AspActionHelper.buildAspAction(session, viewstate, {
                 '__SITEPOSTED' : '',
                 '__ACTIVITYPOSTED' : '',
