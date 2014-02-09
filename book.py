@@ -33,7 +33,7 @@ class AspActionHelper:
 
     @staticmethod
     def getActionUrl(path):
-        return 'https://www.hertsmereleisurebookings.co.uk/Horizons/' + path
+        return 'https://www.hertsmereleisurebookings.co.uk/Horizons' + path
 
     @staticmethod
     def getSessionId(r):
