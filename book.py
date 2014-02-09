@@ -120,7 +120,7 @@ class BookingTableDigester:
 def main ():
     global options, args
 
-    logging.basicConfig(format='%(asctime)s %(message)s')
+    logging.basicConfig(format='%(asctime)s %(message)s',level=logging.DEBUG)
     logger = logging.getLogger('book')
 
     # Initialise session
