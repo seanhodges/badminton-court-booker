@@ -27,28 +27,6 @@ from collections import namedtuple
 from bs4 import BeautifulSoup
 #from pexpect import run, spawn
 
-def HertsmereViewStates(page):
-    viewstate = ''
-    eventvalidation = ''
-
-    if page == 'Login':
-        viewstate = '/wEPDwULLTE5MTM4MzU3MzAPZBYCZg9kFgICAQ9kFggCAQ8WAh4EVGV4dAU4PGltZyBzcmM9ImdyYXBoaWNzL1dQLWdyYXBoaWNzL2xvZ28uZ2lmIiBib3JkZXI9Im5vbmUiLz5kAgMPZBYOAgEPDxYCHwAFBEhvbWVkZAIDDw8WAh8ABQtNeSBTZXR0aW5nc2RkAgcPDxYGHghDc3NDbGFzcwUDSEwzHwAFDE1ha2UgQm9va2luZx4EXyFTQgICZGQCCw8PFgIfAAUJTXkgQmFza2V0ZGQCDQ8PFgQfAAUHRW5xdWlyeR4HVmlzaWJsZWhkZAIPDw8WAh8ABQRIZWxwZGQCEQ9kFgICAQ8PFgQfAAUmQmFza2V0IGxvY2tlZC4gQ2xpY2sgaGVyZSBmb3IgZGV0YWlscy4fA2hkZAIFD2QWCgIBDw8WAh8ABRVTZWFuIEhvZGdlcyAoNjAxNTE0NylkZAIDDxBkZBYAZAIHDw8WAh8ABRRXaWxsaWFtIFBlbm4gTGVpc3VyZWRkAgkPDxYEHghJbWFnZVVybAUlfi9ncmFwaGljcy9XUC1ncmFwaGljcy9jaGFuZ2V1c2VyLmdpZh8DaGRkAgsPDxYCHwQFIX4vZ3JhcGhpY3MvV1AtZ3JhcGhpY3MvTG9nb3V0LmdpZmRkAgcPZBYEAgEPZBYGAgEPZBYCZg9kFgQCAg9kFgJmDw8WAh8EBSN+L2dyYXBoaWNzL1dQLWdyYXBoaWNzL3Njcl91cF93LmdpZmRkAgMPZBYCZg8PFgIfBAUlfi9ncmFwaGljcy9XUC1ncmFwaGljcy9zY3JfZG93bl93LmdpZmRkAgUPZBYCZg9kFgQCAg9kFgJmDw8WAh8EBSN+L2dyYXBoaWNzL1dQLWdyYXBoaWNzL3Njcl91cF93LmdpZmRkAgMPZBYCZg8PFgIfBAUlfi9ncmFwaGljcy9XUC1ncmFwaGljcy9zY3JfZG93bl93LmdpZmRkAgkPZBYCAgIPZBYCZg8PZBYCHgVzdHlsZQUPY3Vyc29yOkRlZmF1bHQ7ZAIDD2QWBgIBD2QWAgIBDw8WBB4FV2lkdGgbAAAAAAAAgEABAAAAHwICgAJkZAICD2QWAgIBDw8WBB8GGwAAAAAAAIBAAQAAAB8CAoACFgIfBWRkAgMPDxYCHwAFGlNhdHVyZGF5LCAwMSBGZWJydWFyeSAyMDE0ZGQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgEFHWN0bDAwJFd1Y1N0YXR1c0JhcjEkaW1nTG9nb3V0KfuGxfPhBfWsyzL9xMmDL6Qee68='
-        eventvalidation = '/wEWAwLE/ez7AwKes/m8BALkjd6TAXcJExGuzloGKiBfOtb2GhFh2jbc'
-    elif page == 'MakeBooking':
-        viewstate = '/wEPDwULLTE0MTMzMTQwMjMPZBYCZg9kFgICAQ9kFggCAQ8WAh4EVGV4dAU4PGltZyBzcmM9ImdyYXBoaWNzL1dQLWdyYXBoaWNzL2xvZ28uZ2lmIiBib3JkZXI9Im5vbmUiLz5kAgMPZBYOAgEPDxYGHghDc3NDbGFzcwUDSEwzHwAFBEhvbWUeBF8hU0ICAmRkAgMPDxYCHwAFC015IFNldHRpbmdzZGQCBw8PFgIfAAUMTWFrZSBCb29raW5nZGQCCw8PFgIfAAUJTXkgQmFza2V0ZGQCDQ8PFgQfAAUHRW5xdWlyeR4HVmlzaWJsZWhkZAIPDw8WAh8ABQRIZWxwZGQCEQ9kFgICAQ8PFgIfA2hkZAIFD2QWCgIBDw8WAh8ABRVTZWFuIEhvZGdlcyAoNjAxNTE0NylkZAIDDxBkZBYAZAIHDw8WAh8ABRRXaWxsaWFtIFBlbm4gTGVpc3VyZWRkAgkPDxYEHghJbWFnZVVybAUlfi9ncmFwaGljcy9XUC1ncmFwaGljcy9jaGFuZ2V1c2VyLmdpZh8DaGRkAgsPDxYCHwQFIX4vZ3JhcGhpY3MvV1AtZ3JhcGhpY3MvTG9nb3V0LmdpZmRkAgcPZBYIAgEPDxYCHwAFB1dlbGNvbWVkZAIDDw8WAh8ABSBXaGF0IHdvdWxkIHlvdSBsaWtlIHRvIGRvIHRvZGF5P2RkAgUPZBYCZg8PFgQeBkhlaWdodBsAAAAAAAA+QAEAAAAfAgKAAWRkAgcPZBYCAgEPZBYCZg9kFgJmDw8WBB8FGwAAAAAAAFlAAQAAAB8CAoABFgIeB29uY2xpY2sFNHNob3dNZXNzYWdlKCdjdGwwMF9jcGhNYWluX1d1Y05vdGljZUJvYXJkczFfY3RsMDAnKTtkGAEFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYDBR1jdGwwMCRXdWNTdGF0dXNCYXIxJGltZ0xvZ291dAUTY3RsMDAkY3BoTWFpbiRjdGwwNAUTY3RsMDAkY3BoTWFpbiRjdGwwNuwU0m1173NAO8x+vVWF41wG3gx8'
-        eventvalidation = '/wEWBgKK87LoCAKes/m8BAL9qeagBAKYk4S2DgKz/KHLCALO5b/gAkkc7k53317LV0FWAHv1fnCBTkYh'
-    elif page == 'Basket':
-        viewstate = '/wEPDwUKMTk3NjczMDQyNA9kFgJmD2QWAgIBD2QWCAIBDxYCHgRUZXh0BTg8aW1nIHNyYz0iZ3JhcGhpY3MvV1AtZ3JhcGhpY3MvbG9nby5naWYiIGJvcmRlcj0ibm9uZSIvPmQCAw9kFg4CAQ8PFgIfAAUESG9tZWRkAgMPDxYCHwAFC015IFNldHRpbmdzZGQCBw8PFgIfAAUMTWFrZSBCb29raW5nZGQCCw8PFgYeCENzc0NsYXNzBQNITDMfAAUJTXkgQmFza2V0HgRfIVNCAgJkZAINDw8WBB8ABQdFbnF1aXJ5HgdWaXNpYmxlaGRkAg8PDxYCHwAFBEhlbHBkZAIRD2QWAgIBDw8WAh8DaGRkAgUPZBYKAgEPDxYCHwAFFVNlYW4gSG9kZ2VzICg2MDE1MTQ3KWRkAgMPEGRkFgBkAgcPDxYCHwAFFFdpbGxpYW0gUGVubiBMZWlzdXJlZGQCCQ8PFgQeCEltYWdlVXJsBSV+L2dyYXBoaWNzL1dQLWdyYXBoaWNzL2NoYW5nZXVzZXIuZ2lmHwNoZGQCCw8PFgIfBAUhfi9ncmFwaGljcy9XUC1ncmFwaGljcy9Mb2dvdXQuZ2lmZGQCBw9kFgICAQ9kFgQCDQ9kFgJmD2QWAgIIDw8WAh8AZWRkAhEPZBYCAgEPDxYCHwAFMEl0ZW1zIHdpbGwgb25seSBzdGF5IGluIHRoZSBiYXNrZXQgZm9yIDUgbWludXRlc2RkGAEFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYCBR1jdGwwMCRXdWNTdGF0dXNCYXIxJGltZ0xvZ291dAUhY3RsMDAkY3BoTWFpbiRXdWNCYXNrZXQxJGNoa1Rlcm1zXsRzQkBrkRsa/ilbLIU0IoxqRLA='
-        eventvalidation = '/wEWBwLGhtTAAwKes/m8BAL72p2FCQKLgP+hAQKbtfK5BgKuhuaXBwKx6ZLADNhcGcJx/p0qB2Ia3ZOIAVQ9w9Xw'
-    elif page == 'Home':
-        viewstate = '/wEPDwUKMTMwNzg2OTQ1Mw9kFgJmD2QWAgIBD2QWCAIBDxYCHgRUZXh0BTg8aW1nIHNyYz0iZ3JhcGhpY3MvV1AtZ3JhcGhpY3MvbG9nby5naWYiIGJvcmRlcj0ibm9uZSIvPmQCAw9kFhACAQ8PFgIfAAUESG9tZWRkAgMPDxYCHwAFC015IFNldHRpbmdzZGQCBQ8PFgQeCENzc0NsYXNzBQNITDMeBF8hU0ICAmRkAgcPDxYCHwAFDE1ha2UgQm9va2luZ2RkAgsPDxYCHwAFCU15IEJhc2tldGRkAg0PDxYEHwAFB0VucXVpcnkeB1Zpc2libGVoZGQCDw8PFgIfAAUESGVscGRkAhEPZBYCAgEPDxYCHwNoZGQCBQ9kFgoCAQ8PFgIfAAUVU2VhbiBIb2RnZXMgKDYwMTUxNDcpZGQCAw8QZGQWAGQCBw8PFgIfAAUUV2lsbGlhbSBQZW5uIExlaXN1cmVkZAIJDw8WBB4ISW1hZ2VVcmwFJX4vZ3JhcGhpY3MvV1AtZ3JhcGhpY3MvY2hhbmdldXNlci5naWYfA2hkZAILDw8WAh8EBSF+L2dyYXBoaWNzL1dQLWdyYXBoaWNzL0xvZ291dC5naWZkZAIHD2QWAgIBD2QWBAIlDw8WAh8EBSN+L2dyYXBoaWNzL1dQLWdyYXBoaWNzL3Njcl91cF93LmdpZmRkAicPDxYCHwQFJX4vZ3JhcGhpY3MvV1AtZ3JhcGhpY3Mvc2NyX2Rvd25fdy5naWZkZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAQUdY3RsMDAkV3VjU3RhdHVzQmFyMSRpbWdMb2dvdXQ908KTklcBh4vH2meu6t8frDRUFw=='
-        eventvalidation = '/wEWBQLA1ZRjAp6z+bwEAoT6nbMIApWY9p8GAtjjqHJe6+bEkxqzZDJ0JX3lmWMt0Yu0Zg=='
-    elif page == 'Fake':
-        viewstate = '/wEPDwUJNDY='
-        eventvalidation = '/wEWBgKCxaiC='
-
-    return { 'viewstate' : viewstate, 'eventvalidation' : eventvalidation }
-
 class AspActionHelper:
 
     AspRequest = namedtuple('AspRequest', 'cookies payload')
@@ -69,8 +47,18 @@ class AspActionHelper:
         return { 'viewstate' : viewstate, 'eventvalidation' : eventvalidation }
 
     @staticmethod
-    def getViewState(page):
-        return HertsmereViewStates(page)
+    def getViewState(url):
+        out = {}
+
+        if url == 'Fake':
+            viewstate = '/wEPDwUJNDY='
+            eventvalidation = '/wEWBgKCxaiC='
+            out = { 'viewstate' : viewstate, 'eventvalidation' : eventvalidation }
+        else:
+            response = requests.get(url)
+            out = AspActionHelper.parseViewState(response)
+
+        return out
 
     @staticmethod
     def buildAspAction(session, viewstate, args):
@@ -126,7 +114,7 @@ def main ():
     # Initialise session
     logger.info('Initialising session')
     url = AspActionHelper.getActionUrl('/Login/Default.aspx?regionid=4')
-    viewstate = AspActionHelper.getViewState('Login')
+    viewstate = AspActionHelper.getViewState(url)
     response = requests.get(url)
     session = AspActionHelper.getSessionId(response)
 
@@ -148,7 +136,7 @@ def main ():
         # Get badminton booking data for next week
         logger.info('Retriving booking data for next week')
         url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
-        viewstate = AspActionHelper.getViewState('MakeBooking')
+        viewstate = AspActionHelper.getViewState(url)
         request = AspActionHelper.buildAspAction(session, viewstate, {
             '__SITEPOSTED' : '',
             '__ACTIVITYPOSTED' : '1000',
@@ -190,7 +178,7 @@ def main ():
             # Add to basket
             logger.info('Adding to basket')
             url = AspActionHelper.getActionUrl('/MakeBooking.aspx')
-            viewstate = AspActionHelper.getViewState('MakeBooking')
+            viewstate = AspActionHelper.getViewState(url)
             request = AspActionHelper.buildAspAction(session, viewstate, {
                 '__SITEPOSTED' : '',
                 '__ACTIVITYPOSTED' : '',
@@ -221,7 +209,7 @@ def main ():
             # Agree to T&Cs and submit basket
             logger.info('Submitting basket')
             url = AspActionHelper.getActionUrl('/Basket.aspx')
-            viewstate = AspActionHelper.getViewState('Basket')
+            viewstate = AspActionHelper.getViewState(url)
             request = AspActionHelper.buildAspAction(session, viewstate, {
                 '__SITE' : '',
                 '__BOOKREF' : '',
@@ -249,7 +237,7 @@ def main ():
 
     finally:
         # Logout
-        viewstate = AspActionHelper.getViewState('Login')
+        viewstate = AspActionHelper.getViewState(url)
         request = AspActionHelper.buildAspAction(session, viewstate, {
             '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
             '__EVENTARGUMENT' : '',
