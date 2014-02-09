@@ -159,7 +159,6 @@ def main ():
             'ctl00$cphMain$WucBookingSheet1$hfMessage' : ''
         })
         response = requests.post(url, data=request.payload, cookies=request.cookies)
-        logger.debug(response.text)
 
         # Find available courts for chosen time
         logger.info('Finding available courts')
