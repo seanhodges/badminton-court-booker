@@ -125,8 +125,8 @@ def main ():
     request = AspActionHelper.buildAspAction(session, viewstate, {
         '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
         '__EVENTARGUMENT' : '',
-        'ctl00$cphLogin$txtEmail' : 'seanhodges84@gmail.com',
-        'ctl00$cphLogin$txtPassword' : 'do4love'
+        'ctl00$cphLogin$txtEmail' : '<YOUR EMAIL>',
+        'ctl00$cphLogin$txtPassword' : '<YOUR PASSWORD>'
     })
     response = requests.post(url, data=request.payload, cookies=request.cookies)
     if response.status_code != 200:
@@ -214,12 +214,12 @@ def main ():
                 '__SITE' : '',
                 '__BOOKREF' : '',
                 '__ACTION' : 'CHECKOUT',
-                '__PWD' : 'do4love',
+                '__PWD' : '<YOUR PASSWORD>',
                 '__PERSON' : '',
                 'ctl00$cphMain$WucBasket1$hfLoginMethod' : 'Standard',
                 'ctl00$cphMain$WucBasket1$hfMessage' : '',
                 'ctl00$cphMain$WucBasket1$chkTerms' : 'on',
-                'ctl00$cphMain$WucBasket1$txtPassword' : 'do4love',
+                'ctl00$cphMain$WucBasket1$txtPassword' : '<YOUR PASSWORD>',
                 entry : ''
             })
             response = requests.post(url, data=request.payload, cookies=request.cookies)

@@ -71,8 +71,8 @@ class test_Asp_Action_Helper(unittest.TestCase):
         request = AspActionHelper.buildAspAction(session, viewstate, {
             '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
             '__EVENTARGUMENT' : '',
-            'ctl00$cphLogin$txtEmail' : 'seanhodges84@gmail.com',
-            'ctl00$cphLogin$txtPassword' : 'do4love'
+            'ctl00$cphLogin$txtEmail' : '<YOUR EMAIL>',
+            'ctl00$cphLogin$txtPassword' : '<YOUR PASSWORD>'
         })
 
         cookies = {
@@ -85,8 +85,8 @@ class test_Asp_Action_Helper(unittest.TestCase):
             '__EVENTVALIDATION' : '/wEWBgKCxaiC=',
             '__EVENTTARGET' : 'ctl00$cphLogin$hlLogon',
             '__EVENTARGUMENT' : '',
-            'ctl00$cphLogin$txtEmail' : 'seanhodges84@gmail.com',
-            'ctl00$cphLogin$txtPassword' : 'do4love'
+            'ctl00$cphLogin$txtEmail' : '<YOUR EMAIL>',
+            'ctl00$cphLogin$txtPassword' : '<YOUR PASSWORD>'
         }
         self.assertEqual(request.payload, payload)
 
@@ -201,12 +201,12 @@ class test_Asp_Action_Helper(unittest.TestCase):
             '__SITE' : '',
             '__BOOKREF' : '',
             '__ACTION' : 'CHECKOUT',
-            '__PWD' : 'do4love',
+            '__PWD' : '<YOUR PASSWORD>',
             '__PERSON' : '',
             'ctl00$cphMain$WucBasket1$hfLoginMethod' : 'Standard',
             'ctl00$cphMain$WucBasket1$hfMessage' : '',
             'ctl00$cphMain$WucBasket1$chkTerms' : '1',
-            'ctl00$cphMain$WucBasket1$txtPassword' : 'do4love',
+            'ctl00$cphMain$WucBasket1$txtPassword' : '<YOUR PASSWORD>',
             entry : ''
         })
 
@@ -221,12 +221,12 @@ class test_Asp_Action_Helper(unittest.TestCase):
             '__SITE' : '',
             '__BOOKREF' : '',
             '__ACTION' : 'CHECKOUT',
-            '__PWD' : 'do4love',
+            '__PWD' : '<YOUR PASSWORD>',
             '__PERSON' : '',
             'ctl00$cphMain$WucBasket1$hfLoginMethod' : 'Standard',
             'ctl00$cphMain$WucBasket1$hfMessage' : '',
             'ctl00$cphMain$WucBasket1$chkTerms' : '1',
-            'ctl00$cphMain$WucBasket1$txtPassword' : 'do4love',
+            'ctl00$cphMain$WucBasket1$txtPassword' : '<YOUR PASSWORD>',
             'ctl00$cphMain$WucBasket1$HIDDENREF_6_50993_E_Badminton_9.2500' : ''
         }
         self.assertEqual(request.payload, payload)

@@ -55,8 +55,8 @@ class test_Logging_In(unittest.TestCase):
                 '__EVENTARGUMENT' : '',
                 '__VIEWSTATE' : viewstate,
                 '__EVENTVALIDATION' : eventvalidation,
-                'ctl00$cphLogin$txtEmail' : 'seanhodges84@gmail.com',
-                'ctl00$cphLogin$txtPassword' : 'do4love'
+                'ctl00$cphLogin$txtEmail' : '<YOUR EMAIL>',
+                'ctl00$cphLogin$txtPassword' : '<YOUR PASSWORD>'
                 }
 
         # Attempt the login request
